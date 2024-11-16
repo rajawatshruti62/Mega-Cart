@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Checkout</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url(the-nix-company-4Hmj9gkyM6c-unsplash.jpg);
+      background-size: cover;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    #username {
+      font-weight: bold;
+    }
+
+    #date {
+      text-align: right;
+      color: #ffffff;
+      font-size: 18px;
+    }
+
+    #logout {
+      float: left;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    #time {
+      text-align: right;
+      color: #ffffff;
+      font-size: 18px;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .item {
+      text-align: center;
+      cursor: pointer;
+      background-color: #ffffff;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .item img {
+      width: 150px;
+      height: 150px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .item div {
+      margin-top: 10px;
+    }
+
+    #cart-button {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    #cart-button a {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 18px;
+    }
+
+    #cart-list {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #ffffff;
+      border-radius: 5px;
+    }
+
+    #total-cost {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Dear, <span id="username">User</span>! Welcome to Mega Cart ...</h1>
+  <div id="date"></div>
+  <div id="time"></div>
+  <button id="logout">Logout</button>
+  <div id="cart-list">
+    <h2>Cart Items:</h2>
+  </div>
+  <div id="total-cost"></div>
+
+  <script>
+    // Function to format the date
+    function formatDate(date) {
+      const options = { year: 'numeric', month: 'short', day: 'numeric' };
+      return date.toLocaleDateString('en-US', options);
+    }
+
+    // Function to format the time
+    function formatTime(date) {
+      const options = { hour: 'numeric', minute: 'numeric', second: 'numeric' };
+      return date.toLocaleTimeString('en-US', options);
+    }
+
+    function addToCart(itemName) {
+      var item = {
+        name: itemName,
+        image: '', 
+        cost: 0.00, 
+        daysToDeliver: 0, 
+      };
+
+      var items = JSON.parse(localStorage.getItem('items')) || [];
+      items.push(item);
+      localStorage.setItem('items', JSON.stringify(items));
+
+      alert('Item added to cart: ' + itemName);
+    }
+    function displayCartItems() {
+      var cartListElement = document.getElementById('cart-list');
+      cartListElement.innerHTML = '';
+
+      var items = JSON.parse(localStorage.getItem('items')) || [];
+
+      if (items.length === 0) {
+        cartListElement.textContent = 'No items in the cart.';
+        return;
+      }
+        var name = document.createElement('span');
+        name.textContent = item.name;
+        li.appendChild(name);
+
+        var cost = document.createElement('span');
+        cost.textContent = 'Cost: $' + item.cost.toFixed(2);
+        li.appendChild(cost);
+
+        var daysToDeliver = document.createElement('span');
+        daysToDeliver.textContent = 'Days to deliver: ' + item.daysToDeliver;
+        li.appendChild(daysToDeliver);
+
+        ul.appendChild(li);
+      };
+
+      cartListElement.appendChild(ul);
+
+      var totalCost = items.reduce(function (total, item) {
+        return total + item.cost;
+      }, 0);
+
+      var totalCostElement = document.getElementById('total-cost');
+      totalCostElement.textContent = 'Total Cost: $' + totalCost.toFixed(2);
+    
+
+    // Function to clear localStorage and redirect to login page
+    function logout() {
+      localStorage.clear();
+      sessionStorage.clear();
+      window.location.href = 'login.html';
+    }
+
+    // Event listener for logout button
+    var logoutButton = document.getElementById('logout');
+    logoutButton.addEventListener('click', logout);
+
+    // Event listener for item click
+    var items = document.getElementsByClassName('item');
+    Array.from(items).forEach(function (item) {
+      item.addEventListener('click', function () {
+        var itemName = this.dataset.item;
+        addToCart(itemName);
+      });
+    });
+
+    // Display current date
+    var dateElement = document.getElementById('date');
+    var currentDate = new Date();
+    dateElement.textContent = formatDate(currentDate);
+
+    // Display current time
+    var timeElement = document.getElementById('time');
+    function updateTime() {
+      var currentTime = new Date();
+      timeElement.textContent = formatTime(currentTime);
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+
+    // Get username from localStorage and update the heading
+    var usernameElement = document.getElementById('username');
+    var username = localStorage.getItem('username');
+    if (username) {
+      usernameElement.textContent = username;
+    }
+
+    // Display cart items on page load
+    displayCartItems();
+  </script>
+</body>
+</html>

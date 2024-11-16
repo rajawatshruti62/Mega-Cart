@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>main</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url(the-nix-company-4Hmj9gkyM6c-unsplash.jpg);
+      background-size: cover;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    #username {
+      font-weight: bold;
+    }
+
+    #date {
+      text-align: right;
+      color: #ffffff;
+      font-size: 18px;
+    }
+
+    #logout {
+      float: left;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    #time {
+      text-align: right;
+      color: #ffffff;
+      font-size: 18px;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .item {
+      text-align: center;
+      cursor: pointer;
+      background-color: #ffffff;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .item img {
+      width: 150px;
+      height: 150px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .item div {
+      margin-top: 10px;
+    }
+
+    #cart-button {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    #cart-button a {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 18px;
+    }
+
+    #cart-list {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #ffffff;
+      border-radius: 5px;
+    }
+
+    #total-cost {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Dear, <span id="username">User</span>! Welcome to Mega Cart ...</h1>
+  <div id="date"></div>
+  <div id="time"></div>
+  <button><a href="capstone.html" id="logout">Logout</a></button>
+  <div class="grid-container">
+    <div class="item" data-item="clothing" onclick="addToCart('clothing')">
+      <img src="images\clothing.jpg" alt="Clothing">
+      <div>Clothing</div>
+    </div>
+    <div class="item" data-item="beauty-health" onclick="addToCart('beauty-health')">
+      <img src="images\health.jpg" alt="Beauty and Health">
+      <div>Beauty and Health</div>
+    </div>
+    <div class="item" data-item="footwear" onclick="addToCart('footwear')">
+      <img src="images\footwear.jpg" alt="Footwear">
+      <div>Footwear</div>
+    </div>
+    <div class="item" data-item="school-bags" onclick="addToCart('school-bags')">
+      <img src="images\school.jpg" alt="School Bags">
+      <div>School Bags</div>
+    </div>
+  </div>
+  <div id="cart-button">
+    <a href="buy-item.html">Click Here to View Cart</a>
+  </div>
+  <script>
+  
+    function formatDate(date) {
+      const options = { year: 'numeric', month: 'short', day: 'numeric' };
+      return date.toLocaleDateString('en-US', options);
+    }
+
+
+    function formatTime(date) {
+      const options = { hour: 'numeric', minute: 'numeric', second: 'numeric' };
+      return date.toLocaleTimeString('en-US', options);
+    }
+
+
+    function addToCart(itemName) {
+      var item = {
+        name: itemName,
+        image: itemName , 
+        cost: 0.00, 
+        daysToDeliver: 0, 
+      };
+
+      var items = JSON.parse(localStorage.getItem('items')) || [];
+      items.push(item);
+      localStorage.setItem('items', JSON.stringify(items));
+
+      alert('Item added to cart: ' + itemName);
+    }
+
+    // Function to clear localStorage and redirect to login page
+    function logout() {
+      localStorage.clear();
+      sessionStorage.clear();
+      window.location.href = 'login.html';
+    }
+
+    // Event listener for logout link
+    var logoutLink = document.getElementById('logout');
+    logoutLink.addEventListener('click', logout);
+
+    // Display current date
+    var dateElement = document.getElementById('date');
+    var currentDate = new Date();
+    dateElement.textContent = formatDate(currentDate);
+
+    // Display current time
+    var timeElement = document.getElementById('time');
+    function updateTime() {
+      var currentTime = new Date();
+      timeElement.textContent = formatTime(currentTime);
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+
+    // Get username from localStorage and update the heading
+    var usernameElement = document.getElementById('username');
+    var username = localStorage.getItem('username');
+    if (username) {
+      usernameElement.textContent = username;
+    }
+  </script>
+</body>
+</html>
